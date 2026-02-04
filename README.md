@@ -63,7 +63,9 @@ For each symbol in the transitions, normalizes it (e.g., converts "e" to "ε") a
 Returns True if any epsilon transition is found, indicating an ε-NFA; otherwise, False (indicating a regular NFA).
 Why Important: This determines if conversion is needed. If no epsilon transitions exist, the automaton is already an NFA, and no further processing occurs.
 Edge Cases: Handles case-insensitive inputs and the Unicode "ε" symbol.
+
 2. calculate_epsilon_closure(nfa, start_state)
+
 This function computes the epsilon-closure of a single state, which is the set of all states reachable from the start state via epsilon transitions (including itself).
 
 Purpose: Essential for ε-NFA conversion, as it finds all states that can be reached without consuming input symbols.
@@ -74,7 +76,9 @@ While the stack is not empty, pops a state, adds it to closure if not already pr
 Returns the closure as a sorted list for consistency.
 Algorithm Details: This is an iterative DFS to avoid recursion depth issues. It ensures no duplicates by using a set.
 Time Complexity: O(V + E) for the graph (states and epsilon transitions), efficient for small automata.
+
 3. calculate_all_epsilon_closures(nfa)
+
 This function computes the epsilon-closure for every state in the automaton.
 
 Purpose: Precomputes closures for all states to use in building new transitions.
@@ -84,7 +88,9 @@ For each state in nfa["states"], calls calculate_epsilon_closure and stores the 
 Returns the dictionary of closures.
 Why Important: Avoids recomputing closures during transition building, though it could be optimized further with memoization for overlapping closures.
 Output Example: {"q0": ["q0", "q1"], "q1": ["q1"], ...}
+
 4. calculate_new_transitions(nfa, closures)
+
 This function constructs the new transition table for the NFA without epsilon transitions.
 
 Purpose: Replaces epsilon-based moves with direct transitions based on closures.
@@ -97,10 +103,13 @@ For each target state from those transitions, adds the epsilon-closure of that t
 Uses a set to avoid duplicates and sorts the lists.
 Algorithm Details: Implements the standard rule: δ'(q, a) = ∪ {ε-closure(p) | p ∈ δ(q, a)} ∪ ε-closure of states reachable via a from q's closure.
 Time Complexity: O(V * |Σ| * (V + E)), as it iterates over closures and symbols.
+
 5. determine_new_final_states(nfa, closures)
+
 This function identifies the new final states in the converted NFA.
 
 Purpose: Updates final states since epsilon transitions can make non-final states effectively final.
+
 How It Works:
 
 Initializes a set new_finals.
