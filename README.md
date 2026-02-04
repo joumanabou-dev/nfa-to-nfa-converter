@@ -108,6 +108,7 @@ For each state, checks if any original final state is in its epsilon-closure.
 If yes, adds the state to new_finals.
 Returns a sorted list.
 Why Important: Ensures the new NFA accepts the same strings; a state is final if it can reach an original final via epsilon.
+
 Other Functions
 
 read_nfa(): Handles user input with validation.
